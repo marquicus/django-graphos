@@ -70,7 +70,7 @@ class TestSources(TestCase):
             [u'2006', 660, 1120],
             [u'2007', 1030, 540]
         ]
-        #Create some rows
+        # Create some rows
         Account.objects.create(year="2004", sales=1000,
                                expenses=400, ceo="Welch")
         Account.objects.create(year="2005", sales=1170,
@@ -363,13 +363,12 @@ class TestBaseHighcharts(TestCase):
         self.data_source = SimpleDataSource(data)
         self.categories = [2004, 2005, 2006, 2007]
         self.x_axis_title = 'Year'
-        self.series = [{'name': 'Sales', 'data': [1000, 1170, 660, 1030]}, {'name': 'Expenses', 'data': [400, 460, 1120, 540]}]
+        self.series = [{'name': 'Sales', 'data': [1000, 1170, 660, 1030]}, {'name': 'Expenses', 'data': [400, 460, 1120, 540]}]  # noqa E501
 
     def test_get_categories(self):
         chart = self.chart_klass(data_source=self.data_source)
         self.assertEqual(chart.get_categories(), self.categories)
         self.assertEqual(chart.get_categories_json(), json.dumps(self.categories))
-
 
     def test_get_series(self):
         chart = self.chart_klass(data_source=self.data_source)
@@ -377,10 +376,10 @@ class TestBaseHighcharts(TestCase):
 
     def test_get_series_with_colors(self):
         chart = self.chart_klass(data_source=self.data_source, options={'colors': ['red']})
-        series = [{'name': 'Sales', 'data': [1000, 1170, 660, 1030], 'color': 'red'}, {'name': 'Expenses', 'data': [400, 460, 1120, 540]}]
+        series = [{'name': 'Sales', 'data': [1000, 1170, 660, 1030], 'color': 'red'}, {'name': 'Expenses', 'data': [400, 460, 1120, 540]}]  # noqa E501
         self.assertEqual(chart.get_series(), series)
         chart = self.chart_klass(data_source=self.data_source, options={'colors': ['red', 'blue']})
-        series = [{'name': 'Sales', 'data': [1000, 1170, 660, 1030], 'color': 'red'}, {'name': 'Expenses', 'data': [400, 460, 1120, 540], 'color': 'blue'}]
+        series = [{'name': 'Sales', 'data': [1000, 1170, 660, 1030], 'color': 'red'}, {'name': 'Expenses', 'data': [400, 460, 1120, 540], 'color': 'blue'}]  # noqa E501
         self.assertEqual(chart.get_series(), series)
 
     def test_get_title(self):
@@ -388,7 +387,7 @@ class TestBaseHighcharts(TestCase):
         self.assertEqual(chart.get_title(), {'text': 'Chart'})
         chart = self.chart_klass(data_source=self.data_source, options={'title': 'Highcharts'})
         self.assertEqual(chart.get_title(), {'text': 'Highcharts'})
-        chart = self.chart_klass(data_source=self.data_source, options={'title': {'text': 'Highcharts', 'align': 'center'}})
+        chart = self.chart_klass(data_source=self.data_source, options={'title': {'text': 'Highcharts', 'align': 'center'}})  # noqa E501
         self.assertEqual(chart.get_title(), {'text': 'Highcharts', 'align': 'center'})
 
     def test_get_subtitle(self):
@@ -396,14 +395,14 @@ class TestBaseHighcharts(TestCase):
         self.assertEqual(chart.get_subtitle(), {})
         chart = self.chart_klass(data_source=self.data_source, options={'subtitle': 'Highcharts'})
         self.assertEqual(chart.get_subtitle(), {'text': 'Highcharts'})
-        chart = self.chart_klass(data_source=self.data_source, options={'subtitle': {'text': 'Highcharts', 'align': 'center'}})
+        chart = self.chart_klass(data_source=self.data_source, options={'subtitle': {'text': 'Highcharts', 'align': 'center'}})  # noqa E501
         self.assertEqual(chart.get_subtitle(), {'text': 'Highcharts', 'align': 'center'})
 
     def test_get_xaxis(self):
         chart = self.chart_klass(data_source=self.data_source)
-        self.assertEqual(chart.get_x_axis(), {'categories':self.categories, 'title': {'text': self.x_axis_title}})
-        chart = self.chart_klass(data_source=self.data_source, options={'xAxis': {'type': 'logarithmic', 'title': {'text': 'Sales vs Year'}}})
-        self.assertEqual(chart.get_x_axis(), {'categories':self.categories, 'title': {'text': 'Sales vs Year'}, 'type': 'logarithmic'})
+        self.assertEqual(chart.get_x_axis(), {'categories': self.categories, 'title': {'text': self.x_axis_title}})
+        chart = self.chart_klass(data_source=self.data_source, options={'xAxis': {'type': 'logarithmic', 'title': {'text': 'Sales vs Year'}}})  # noqa E501
+        self.assertEqual(chart.get_x_axis(), {'categories':self.categories, 'title': {'text': 'Sales vs Year'}, 'type': 'logarithmic'})  # noqa E501
 
     def test_get_yaxis(self):
         chart = self.chart_klass(data_source=self.data_source)
@@ -488,10 +487,8 @@ class TestHighchartsPieChart(TestBaseHighcharts):
     def test_get_series(self):
         chart = self.chart_klass(data_source=self.data_source)
         series = [
-            {'name': "Sales", "data": [{"name": 2004, "y": 1000}, {'name': 2005, 'y': 1170}, {'name': 2006, 'y': 660},
-                                       {'name': 2007, 'y': 1030}]},
-            {'name': 'Expenses', 'data': [{"name": 2004, "y": 400}, {'name': 2005, 'y': 460}, {'name': 2006, 'y': 1120},
-                                          {'name': 2007, 'y': 540}]}
+            {'name': "Sales", "data": [{"name": 2004, "y": 1000}, {'name': 2005, 'y': 1170}, {'name': 2006, 'y': 660}, {'name': 2007, 'y': 1030}]},  # noqa E501
+            {'name': 'Expenses', 'data': [{"name": 2004, "y": 400}, {'name': 2005, 'y': 460}, {'name': 2006, 'y': 1120}, {'name': 2007, 'y': 540}]}  # noqa E501
         ]
         self.assertEqual(chart.get_series(), series)
 
@@ -499,10 +496,8 @@ class TestHighchartsPieChart(TestBaseHighcharts):
     def test_get_series_with_colors(self):
         chart = self.chart_klass(data_source=self.data_source, options={'colors': ['red']})
         series = [
-            {'name': "Sales", "data": [{"name": 2004, "y": 1000}, {'name': 2005, 'y': 1170}, {'name': 2006, 'y': 660},
-                                       {'name': 2007, 'y': 1030}]},
-            {'name': 'Expenses', 'data': [{"name": 2004, "y": 400}, {'name': 2005, 'y': 460}, {'name': 2006, 'y': 1120},
-                                          {'name': 2007, 'y': 540}]}
+            {'name': "Sales", "data": [{"name": 2004, "y": 1000}, {'name': 2005, 'y': 1170}, {'name': 2006, 'y': 660}, {'name': 2007, 'y': 1030}]},  # noqa E501
+            {'name': 'Expenses', 'data': [{"name": 2004, "y": 400}, {'name': 2005, 'y': 460}, {'name': 2006, 'y': 1120}, {'name': 2007, 'y': 540}]}  # noqa E501
         ]
         self.assertEqual(chart.get_series(), series)
 
@@ -532,7 +527,7 @@ class TestHighchartsScatterChart(TestBaseHighcharts):
         self.assertEqual(chart.get_series(), series)
         # Scatter Chart has ability to work with multiseries data.
         chart = self.chart_klass(data_source=SimpleDataSource(self.multiseriesdata))
-        series = [{"data": [{"y": 8, "x": 9, "State": "Lahore"}, {"y": 7, "x": 8, "State": "Hyderabad"}, {"y": 11, "x": 3, "State": "Lahore"}], "name": "Pakistan"}, {"data": [{"y": 2, "x": 1, "State": "Uttar Pradesh"}, {"y": 3, "x": 2, "State": "Bihar"}, {"y": 7, "x": 5, "State": "Telangana"}], "name": "India"}]
+        series = [{"data": [{"y": 8, "x": 9, "State": "Lahore"}, {"y": 7, "x": 8, "State": "Hyderabad"}, {"y": 11, "x": 3, "State": "Lahore"}], "name": "Pakistan"}, {"data": [{"y": 2, "x": 1, "State": "Uttar Pradesh"}, {"y": 3, "x": 2, "State": "Bihar"}, {"y": 7, "x": 5, "State": "Telangana"}], "name": "India"}]  # noqa E501
         self.assertEqual(chart.get_series(), series)
 
     # This function should be modified when color ability is added to Scatter.
@@ -542,7 +537,7 @@ class TestHighchartsScatterChart(TestBaseHighcharts):
 
     def test_get_xaxis(self):
         chart = self.chart_klass(data_source=self.data_source)
-        self.assertEqual(chart.get_x_axis(),{'title': {'text': 'Sales'}})
+        self.assertEqual(chart.get_x_axis(), {'title': {'text': 'Sales'}})
 
     def test_get_yaxis(self):
         chart = self.chart_klass(data_source=self.data_source)
@@ -562,13 +557,13 @@ class TestHighchartsColumnLineChart(TestBaseHighcharts):
 
     def test_get_series(self):
         chart = self.chart_klass(data_source=self.data_source)
-        series = [{'type': 'column', 'data': [1000, 1170, 660, 1030], 'name': 'Sales'},{'data': [400, 460, 1120, 540], 'name': 'Expenses', 'type': 'line'}]
+        series = [{'type': 'column', 'data': [1000, 1170, 660, 1030], 'name': 'Sales'},{'data': [400, 460, 1120, 540], 'name': 'Expenses', 'type': 'line'}]  # noqa E501
         self.assertEqual(chart.get_series(), series)
 
     # This function should be modified when color ability is added to ColumnLine.
     def test_get_series_with_colors(self):
         chart = self.chart_klass(data_source=self.data_source, options={'colors': ['red']})
-        series = [{'type': 'column', 'data': [1000, 1170, 660, 1030], 'name': 'Sales'},{'data': [400, 460, 1120, 540], 'name': 'Expenses', 'type': 'line'}]
+        series = [{'type': 'column', 'data': [1000, 1170, 660, 1030], 'name': 'Sales'},{'data': [400, 460, 1120, 540], 'name': 'Expenses', 'type': 'line'}]  # noqa E501
         self.assertEqual(chart.get_series(), series)
 
 
@@ -582,13 +577,13 @@ class TestHighchartsLineColumnChart(TestBaseHighcharts):
 
     def test_get_series(self):
         chart = self.chart_klass(data_source=self.data_source)
-        series = [{'type': 'line', 'data': [1000, 1170, 660, 1030], 'name': 'Sales'},{'data': [400, 460, 1120, 540], 'name': 'Expenses', 'type': 'column'}]
+        series = [{'type': 'line', 'data': [1000, 1170, 660, 1030], 'name': 'Sales'},{'data': [400, 460, 1120, 540], 'name': 'Expenses', 'type': 'column'}]  # noqa E501
         self.assertEqual(chart.get_series(), series)
 
     # This function should be modified when color ability is added to ColumnLine.
     def test_get_series_with_colors(self):
         chart = self.chart_klass(data_source=self.data_source, options={'colors': ['red']})
-        series = [{'type': 'line', 'data': [1000, 1170, 660, 1030], 'name': 'Sales'},{'data': [400, 460, 1120, 540], 'name': 'Expenses', 'type': 'column'}]
+        series = [{'type': 'line', 'data': [1000, 1170, 660, 1030], 'name': 'Sales'},{'data': [400, 460, 1120, 540], 'name': 'Expenses', 'type': 'column'}]  # noqa E501
         self.assertEqual(chart.get_series(), series)
 
 
@@ -616,12 +611,13 @@ class TestHighchartsFunnel(TestBaseHighcharts):
     # Needs to be modified when color functionality is added to Funnel
     def test_get_series_with_colors(self):
         chart = self.chart_klass(data_source=SimpleDataSource(self.funnel_data))
-        series = [{'data': [['Website visits', 654],['Downloads', 4064],['Requested price list', 1987],['Invoice sent', 976],['Finalized', 846]]}]
+        series = [{'data': [['Website visits', 654],['Downloads', 4064],['Requested price list', 1987],['Invoice sent', 976],['Finalized', 846]]}]  # noqa E501
         self.assertEqual(chart.get_series(), series)
 
 
 class TestHighchartsBubbleChart(TestBaseHighcharts):
     chart_klass = highcharts.Bubble
+
     def setUp(self):
         data = [["Country", "Sugar Consumption", "Fat Consumption", "GDP"],
                 ["India", 10, 15, 90],
@@ -642,10 +638,10 @@ class TestHighchartsBubbleChart(TestBaseHighcharts):
                                    ["P", "USA", 39, 21, 100],
                                    ["O", "USA", 44, 29, 150]]
         chart = self.chart_klass(data_source=self.data_source)
-        series = [{'data': [{'y': 15, 'Country': 'India', 'z': 90, 'x': 10}, {'y': 20, 'Country': 'USA', 'z': 19, 'x': 11}, {'y': 5, 'Country': 'Srilanka', 'z': 98, 'x': 15}, {'y': 35, 'Country': 'Indonesia', 'z': 150, 'x': 16}], 'name': 'Country'}]
+        series = [{'data': [{'y': 15, 'Country': 'India', 'z': 90, 'x': 10}, {'y': 20, 'Country': 'USA', 'z': 19, 'x': 11}, {'y': 5, 'Country': 'Srilanka', 'z': 98, 'x': 15}, {'y': 35, 'Country': 'Indonesia', 'z': 150, 'x': 16}], 'name': 'Country'}]  # noqa E501
         self.assertEqual(chart.get_series(), series)
         chart = self.chart_klass(data_source=SimpleDataSource(bubble_chart_data_multi))
-        series = [{'data': [{'Grade': 'A', 'x': 10, 'z': 90, 'y': 15}, {'Grade': 'B', 'x': 11, 'z': 19, 'y': 20}], 'name': 'India'}, {'data': [{'Grade': 'P', 'x': 39, 'z': 100, 'y': 21}, {'Grade': 'O', 'x': 44, 'z': 150, 'y': 29}], 'name': 'USA'}]
+        series = [{'data': [{'Grade': 'A', 'x': 10, 'z': 90, 'y': 15}, {'Grade': 'B', 'x': 11, 'z': 19, 'y': 20}], 'name': 'India'}, {'data': [{'Grade': 'P', 'x': 39, 'z': 100, 'y': 21}, {'Grade': 'O', 'x': 44, 'z': 150, 'y': 29}], 'name': 'USA'}]  # noqa E501
         self.assertEqual(chart.get_series(), series)
 
     # Needs to be modified when color functionality is added to Bubble
@@ -668,6 +664,7 @@ class TestHighchartsBubbleChart(TestBaseHighcharts):
     def test_get_yaxis_single_series(self):
         pass
 
+
 class TestHighchartsHeatMap(TestBaseHighcharts):
     chart_klass = highcharts.HeatMap
 
@@ -678,7 +675,7 @@ class TestHighchartsHeatMap(TestBaseHighcharts):
 
     def test_get_series(self):
         chart = self.chart_klass(data_source=self.data_source)
-        series = [{'data': [[0, 0, 1000], [0, 1, 400], [1, 0, 1170], [1, 1, 460], [2, 0, 660], [2, 1, 1120], [3, 0, 1030], [3, 1, 540]]}]
+        series = [{'data': [[0, 0, 1000], [0, 1, 400], [1, 0, 1170], [1, 1, 460], [2, 0, 660], [2, 1, 1120], [3, 0, 1030], [3, 1, 540]]}]  # noqa E501
         self.assertEqual(chart.get_series(), series)
 
     def test_get_yaxis(self):
@@ -713,7 +710,7 @@ class TestHighchartsTreeMap(TestBaseHighcharts):
 
     def test_get_series(self):
         chart = self.chart_klass(data_source=SimpleDataSource(self.treemap_data))
-        series = [{'data': [{'color': '#7cb5ec', 'value': 6, 'id': 'id_00', 'parent': 'id_0', 'name': 'Road Accident'}, {'color': '#7cb5ec', 'value': 9, 'id': 'id_01', 'parent': 'id_0', 'name': 'Cardiovascular Disease'}, {'color': '#7cb5ec', 'id': 'id_0', 'value': 15, 'name': 'China'}, {'color': '#434348', 'value': 5, 'id': 'id_12', 'parent': 'id_1', 'name': 'Road Accident'}, {'color': '#434348', 'value': 10, 'id': 'id_13', 'parent': 'id_1', 'name': 'Cardiovascular Disease'}, {'color': '#434348', 'id': 'id_1', 'value': 15, 'name': 'India'}]}]
+        series = [{'data': [{'color': '#7cb5ec', 'value': 6, 'id': 'id_00', 'parent': 'id_0', 'name': 'Road Accident'}, {'color': '#7cb5ec', 'value': 9, 'id': 'id_01', 'parent': 'id_0', 'name': 'Cardiovascular Disease'}, {'color': '#7cb5ec', 'id': 'id_0', 'value': 15, 'name': 'China'}, {'color': '#434348', 'value': 5, 'id': 'id_12', 'parent': 'id_1', 'name': 'Road Accident'}, {'color': '#434348', 'value': 10, 'id': 'id_13', 'parent': 'id_1', 'name': 'Cardiovascular Disease'}, {'color': '#434348', 'id': 'id_1', 'value': 15, 'name': 'India'}]}]  # noqa E501
         self.assertEqual(chart.get_series(), series)
 
     # Modifiy after color functionality is there in TreeMap
@@ -724,14 +721,14 @@ class TestHighchartsTreeMap(TestBaseHighcharts):
 class TestHighchartsPieDonut(TestHighchartsPieChart):
     chart_klass = highcharts.PieDonut
     pie_data = [["Country", "Cause", "Death Rate"],
-                    ["India", "Cardiovascular Disease", 10],
-                    ["India", "Road Accident", 5],
-                    ["China", "Cardiovascular Disease", 9],
-                    ["China", "Road Accident", 6]]
+                ["India", "Cardiovascular Disease", 10],
+                ["India", "Road Accident", 5],
+                ["China", "Cardiovascular Disease", 9],
+                ["China", "Road Accident", 6]]
 
     def test_get_series(self):
         chart = self.chart_klass(data_source=SimpleDataSource(self.pie_data))
-        series = [{'showInLegend': True, 'dataLabels': {'enabled': False}, 'data': [{'color': '#7cb5ec', 'y': 15, 'name': 'China'}, {'color': '#434348', 'y': 15, 'name': 'India'}], 'name': 'Country', 'size': '60%'}, {'innerSize': '60%', 'data': [{'color': '#7cb5ec', 'y': 6, 'name': 'Road Accident'}, {'color': '#7cb5ec', 'y': 9, 'name': 'Cardiovascular Disease'}, {'color': '#434348', 'y': 5, 'name': 'Road Accident'}, {'color': '#434348', 'y': 10, 'name': 'Cardiovascular Disease'}], 'name': 'Cause', 'size': '80%'}]
+        series = [{'showInLegend': True, 'dataLabels': {'enabled': False}, 'data': [{'color': '#7cb5ec', 'y': 15, 'name': 'China'}, {'color': '#434348', 'y': 15, 'name': 'India'}], 'name': 'Country', 'size': '60%'}, {'innerSize': '60%', 'data': [{'color': '#7cb5ec', 'y': 6, 'name': 'Road Accident'}, {'color': '#7cb5ec', 'y': 9, 'name': 'Cardiovascular Disease'}, {'color': '#434348', 'y': 5, 'name': 'Road Accident'}, {'color': '#434348', 'y': 10, 'name': 'Cardiovascular Disease'}], 'name': 'Cause', 'size': '80%'}]  # noqa E501
         self.assertEqual(chart.get_series(), series)
 
     # To be modified once color functionality is added to Chart.
@@ -775,19 +772,19 @@ class TestHighchartsHighMap(TestBaseHighcharts):
 
     def test_get_series(self):
         chart = self.chart_klass(data_source=SimpleDataSource(self.map_data_us))
-        series = [{'joinBy': ['hc-key', 'code'], 'data': [{'code': 'us-nj', 'value': 438}, {'code': 'us-ri', 'value': 387}], 'name': 'Population'}]
+        series = [{'joinBy': ['hc-key', 'code'], 'data': [{'code': 'us-nj', 'value': 438}, {'code': 'us-ri', 'value': 387}], 'name': 'Population'}]  # noqa E501
         self.assertEqual(chart.get_series(), series)
         chart = self.chart_klass(data_source=SimpleDataSource(self.map_data_us_point))
-        series = [{'color': 'black', 'type': 'map', 'name': 'Regions', 'showInLegend': False}, {'joinBy': ['hc-key', 'code'], 'data': [{'lat': 46.8797, 'Date': '25th February', 'lon': -110.3626}, {'lat': 41.4925, 'Date': '26th February', 'lon': -99.9018}, {'lat': 45.4925, 'Date': '27th February', 'lon': -89.9018}], 'name': 'trump'}]
+        series = [{'color': 'black', 'type': 'map', 'name': 'Regions', 'showInLegend': False}, {'joinBy': ['hc-key', 'code'], 'data': [{'lat': 46.8797, 'Date': '25th February', 'lon': -110.3626}, {'lat': 41.4925, 'Date': '26th February', 'lon': -99.9018}, {'lat': 45.4925, 'Date': '27th February', 'lon': -89.9018}], 'name': 'trump'}]  # noqa E501
         self.assertEqual(chart.get_series(), series)
         chart = self.chart_klass(data_source=SimpleDataSource(self.map_data_us_lat_lon))
-        series = [{'type': 'map', 'name': 'Basemap', 'showInLegend': False}, {'joinBy': ['hc-key', 'code'], 'data': [{'lat': 32.38012, 'z': 900, 'lon': -86.300629}, {'lat': 58.29974, 'z': 387, 'lon': -134.406794}, {'lat': 33.44826, 'z': 313, 'lon': -112.075774}], 'name': 'Population'}]
+        series = [{'type': 'map', 'name': 'Basemap', 'showInLegend': False}, {'joinBy': ['hc-key', 'code'], 'data': [{'lat': 32.38012, 'z': 900, 'lon': -86.300629}, {'lat': 58.29974, 'z': 387, 'lon': -134.406794}, {'lat': 33.44826, 'z': 313, 'lon': -112.075774}], 'name': 'Population'}]  # noqa E501
         self.assertEqual(chart.get_series(), series)
         chart = self.chart_klass(data_source=SimpleDataSource(self.map_data_us_multi_series))
-        series = [{'joinBy': ['hc-key', 'code'], 'data': [{'code': 'us-nj', 'Seats': 10}, {'code': 'us-ri', 'Seats': 10}], 'name': 'Trump'}]
+        series = [{'joinBy': ['hc-key', 'code'], 'data': [{'code': 'us-nj', 'Seats': 10}, {'code': 'us-ri', 'Seats': 10}], 'name': 'Trump'}]  # noqa E501
         self.assertEqual(chart.get_series(), series)
         chart = self.chart_klass(data_source=SimpleDataSource(self.map_data_us_multi_series_lat_lon))
-        series = [{'color': 'black', 'type': 'map', 'name': 'Regions', 'showInLegend': False}, {'joinBy': ['hc-key', 'code'], 'data': [{'lat': 32.38012, 'lon': -86.300629, 'Seats': 10}, {'lat': 58.29974, 'lon': -134.406794, 'Seats': 10}], 'name': 'Trump'}]
+        series = [{'color': 'black', 'type': 'map', 'name': 'Regions', 'showInLegend': False}, {'joinBy': ['hc-key', 'code'], 'data': [{'lat': 32.38012, 'lon': -86.300629, 'Seats': 10}, {'lat': 58.29974, 'lon': -134.406794, 'Seats': 10}], 'name': 'Trump'}]  # noqa E501
         self.assertEqual(chart.get_series(), series)
 
     # Needs some modification

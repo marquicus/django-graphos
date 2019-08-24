@@ -5,6 +5,7 @@ from ..utils import JSONEncoderForHTML
 
 class BaseC3JS(BaseChart):
     """docstring for BaseC3JS"""
+
     def get_html_template(self):
         return "graphos/c3js/html.html"
 
@@ -21,10 +22,14 @@ class BaseC3JS(BaseChart):
         return json.dumps(map(list, zip(*self.get_data())), cls=JSONEncoderForHTML)
 
 
-
 class LineChart(BaseC3JS):
     def get_chart_type(self):
         return "line"
+
+
+class AreaChart(BaseC3JS):
+    def get_chart_type(self):
+        return "area"
 
 
 class BarChart(BaseC3JS):
@@ -60,6 +65,7 @@ class ColumnChart(BaseC3JS):
         rotated: true
     }
     """
+
     def get_chart_type(self):
         return "column"
 

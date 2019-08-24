@@ -3,16 +3,20 @@ from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 from django.http import HttpResponse
 
-from graphos.renderers import gchart, yui, flot, morris, highcharts, c3js, matplotlib_renderer
+from graphos.renderers import gchart, yui, flot, morris, highcharts, c3js, matplotlib_renderer, chartjs
 from graphos.sources.simple import SimpleDataSource
 from graphos.sources.mongo import MongoDBDataSource
 from graphos.sources.model import ModelDataSource
 from graphos.views import FlotAsJson, RendererAsJson
 from .models import Account
 from .utils import get_mongo_cursor
-from .utils import (data, candlestick_data, treemap_data, map_data, map_data_us, map_data_us_point, map_data_us_lat_lon, map_data_us_multi_series, map_data_us_multi_series_lat_lon,
-                    mongo_series_object_1, mongo_series_object_2, heatmap_data, funnel_data, treemap_data_highcharts, piechart_data_highcharts,bubble_chart_data_single, bubble_chart_data_multi,
-                    create_demo_accounts, create_demo_mongo, get_db, scatter_single_series_data, scatter_multi_series_data)
+from .utils import (data, candlestick_data, treemap_data, map_data, map_data_us, map_data_us_point,
+                    map_data_us_lat_lon, map_data_us_multi_series, map_data_us_multi_series_lat_lon,
+                    mongo_series_object_1, mongo_series_object_2, heatmap_data, funnel_data, 
+                    treemap_data_highcharts, piechart_data_highcharts, bubble_chart_data_single, 
+                    bubble_chart_data_multi, create_demo_accounts, create_demo_mongo, get_db, 
+                    scatter_single_series_data, scatter_multi_series_data, 
+                    chartjs_sample_data, chartjs_single_series)
 from .custom_charts import CustomGchart, CustomFlot, CustomFlot2
 
 import json
@@ -34,7 +38,7 @@ class MongoJson(FlotAsJson):
     def get_context_data(self, *args, **kwargs):
         accounts_cursor = get_db("accounts").docs.find()
         data_source = MongoDBDataSource(accounts_cursor,
-                                      fields=['Year', 'Items Sold'])
+                                        fields=['Year', 'Items Sold'])
         chart = flot.LineChart(data_source)
         return {"chart": chart}
 
@@ -46,9 +50,10 @@ class MongoJson2(FlotAsJson):
     def get_context_data(self, *args, **kwargs):
         accounts_cursor = get_db("accounts").docs.find()
         data_source = MongoDBDataSource(accounts_cursor,
-                                      fields=['Year', 'Net Profit'])
+                                        fields=['Year', 'Net Profit'])
         chart = flot.LineChart(data_source)
         return {"chart": chart}
+
 
 mongo_json2 = MongoJson2.as_view()
 
@@ -58,7 +63,7 @@ class MongoJsonMulti(FlotAsJson):
         accounts_cursor = get_db("accounts").docs.find()
         field_names = self.request.REQUEST.getlist("fields[]") or ['Year', 'Net Profit']
         data_source = MongoDBDataSource(accounts_cursor,
-                                      fields=field_names)
+                                        fields=field_names)
         chart = flot.LineChart(data_source)
         return {"chart": chart}
 
@@ -80,11 +85,9 @@ class MongoJsonMulti2(MongoJsonMulti):
             if not series:
                 continue
             collection = "mapreduce_%s__%s__%s__%s" % (
-                    series["resolution"],
-                    "sumof",
-                    series["resource"],
-                    "hours"
-                    )
+                series["resolution"], "sumof",
+                series["resource"], "hours"
+            )
             new_data_series = []
             start = series["start_date"] or None
             end = series["end_date"] or None
@@ -98,8 +101,7 @@ class MongoJsonMulti2(MongoJsonMulti):
                 rec_id = int(rec['_id'].split(':')[0])
                 rec_val = rec["value"]
                 new_data_series.append([rec_id, rec_val])
-            row = {"data":new_data_series, "label": label, "color": color,
-                  }
+            row = {"data": new_data_series, "label": label, "color": color}
             if is_bar:
                 row["bars"] = {"show": True}
             else:
@@ -121,9 +123,9 @@ class MongoJsonMulti2(MongoJsonMulti):
 mongo_json_multi = MongoJsonMulti.as_view()
 mongo_json_multi2 = MongoJsonMulti2.as_view()
 
+
 def get_time_sereies_json(request):
-    get_query('year_ago', None,
-                      'employee=/example/employee/500ff1b8e147f74f7000000c/')
+    get_query('year_ago', None, 'employee=/example/employee/500ff1b8e147f74f7000000c/')
 
 
 class Demo(TemplateView):
@@ -137,21 +139,21 @@ class Demo(TemplateView):
                                       fields=['year', 'sales'])
         simple_data_source = SimpleDataSource(data=data)
         line_chart = self.renderer.LineChart(data_source,
-                                      options={'title': "Sales Growth"})
+                                             options={'title': "Sales Growth"})
         column_chart = self.renderer.ColumnChart(simple_data_source,
-                                          options={'title': "Sales/ Expense"})
+                                                 options={'title': "Sales/ Expense"})
         bar_chart = self.renderer.BarChart(data_source,
-                                    options={'title': "Expense Growth"})
+                                           options={'title': "Expense Growth"})
         pie_chart = self.renderer.PieChart(data_source)
 
         context = {
-                "data_source": data_source,
-                "simple_data_source": simple_data_source,
-                "line_chart": line_chart,
-                "column_chart": column_chart,
-                'bar_chart': bar_chart,
-                'pie_chart': pie_chart,
-                }
+            "data_source": data_source,
+            "simple_data_source": simple_data_source,
+            "line_chart": line_chart,
+            "column_chart": column_chart,
+            'bar_chart': bar_chart,
+            'pie_chart': pie_chart,
+        }
         context.update(super_context)
         return context
 
@@ -175,7 +177,7 @@ def other(request):
     return render(request, 'demo/other.html', context)
 
 
-@cache_page(60*60*24)
+@cache_page(60 * 60 * 24)
 def tutorial(request):
     chart = flot.LineChart(SimpleDataSource(data=data), html_id="line_chart")
     url = "https://raw.github.com/agiliq/django-graphos/master/README.md"
@@ -191,8 +193,7 @@ class GChartDemo(Demo):
     def get_context_data(self, **kwargs):
         context = super(GChartDemo, self).get_context_data(**kwargs)
         data_source = context['data_source']
-        candlestick_chart = self.renderer.CandlestickChart(SimpleDataSource
-                                                    (data=candlestick_data))
+        candlestick_chart = self.renderer.CandlestickChart(SimpleDataSource(data=candlestick_data))
         treemap_chart = self.renderer.TreeMapChart(SimpleDataSource(data=treemap_data))
         area_chart = self.renderer.AreaChart(data_source)
         queryset = Account.objects.all()
@@ -208,11 +209,14 @@ class GChartDemo(Demo):
                 'greenTo': 3000,
                 'max': 3000,
             })
-        context.update({'candlestick_chart': candlestick_chart,
+        context.update({
+                       'candlestick_chart': candlestick_chart,
                        'treemap_chart': treemap_chart,
                        'gauge_chart': gauge_chart,
-                       'area_chart': area_chart})
+                       'area_chart': area_chart
+                       })
         return context
+
 
 gchart_demo = GChartDemo.as_view(renderer=gchart)
 
@@ -239,6 +243,7 @@ class YUIDemo(Demo):
                         'marker_series_chart': marker_series_chart})
         return context
 
+
 yui_demo = YUIDemo.as_view(renderer=yui)
 
 
@@ -257,10 +262,10 @@ class MorrisDemo(TemplateView):
         bar_chart = self.renderer.BarChart(simple_data_source)
         donut_chart = self.renderer.DonutChart(data_source)
         area_chart = self.renderer.AreaChart(data_source)
-        context = {"line_chart": line_chart,
-               'bar_chart': bar_chart,
-               'donut_chart': donut_chart,
-               'area_chart': area_chart}
+        context = {'line_chart': line_chart,
+                   'bar_chart': bar_chart,
+                   'donut_chart': donut_chart,
+                   'area_chart': area_chart}
         context.update(super_context)
         return context
 
@@ -275,12 +280,13 @@ class FlotDemo(Demo):
         context = super(FlotDemo, self).get_context_data(**kwargs)
         data_source = context["data_source"]
         point_chart = self.renderer.PointChart(data_source,
-                                  options={'title': "Sales Growth"})
+                                               options={'title': "Sales Growth"})
         pie_chart = flot.PieChart(context["simple_data_source"],
-                                  options = {'title': "Sales Growth"})
+                                  options={'title': "Sales Growth"})
         context.update({'point_chart': point_chart,
                         "pie_chart": pie_chart})
         return context
+
 
 flot_demo = FlotDemo.as_view(renderer=flot)
 
@@ -293,7 +299,7 @@ class HighChartsDemo(Demo):
         data_source = context.get("data_source")
         simple_data_source = context.get("simple_data_source")
         line_chart = self.renderer.LineChart(data_source,
-                options={'colors': ['red', ], 'series': {'dataLabels': {'enabled': False}}, 'annotation':{'sales':[{'id':660, 'value':"Minimum"},{'id': 2230,'value': "Maximum"}]}})
+            options={'colors': ['red', ], 'series': {'dataLabels': {'enabled': False}}, 'annotation':{'sales':[{'id':660, 'value':"Minimum"},{'id': 2230,'value': "Maximum"}]}})  # noqa E501
         secondary_data = [
             ['year', 'revenue', 'sales'],
             [2004, 100, 50000],
@@ -302,21 +308,21 @@ class HighChartsDemo(Demo):
         ]
         context.update({
             'line_chart': line_chart,
-            'area_chart': self.renderer.AreaChart(data_source, options={'annotation':{'sales':[{'id':660, 'value':"Minimum"},{'id': 2230,'value': "Maximum"}]}}),
+            'area_chart': self.renderer.AreaChart(data_source, options={'annotation':{'sales':[{'id':660, 'value':"Minimum"},{'id': 2230,'value': "Maximum"}]}}),  # noqa E501
             'donut_chart': self.renderer.DonutChart(data_source),
             'scatter_chart': self.renderer.ScatterChart(SimpleDataSource(scatter_single_series_data)),
             'scatter_multi_series_chart': self.renderer.ScatterChart(SimpleDataSource(scatter_multi_series_data)),
             'multi_axis_chart': self.renderer.MultiAxisChart(SimpleDataSource(secondary_data)),
             # If you want highmap_chart to be bubble chart, then add 'map_type': 'mapbubble' to options.
-            'highmap_chart': self.renderer.HighMap(SimpleDataSource(map_data_us), options={'colorAxis': {'minColor': '#efecf3', 'maxColor': '#990041'}, 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),
-            'highmap_chart_point': self.renderer.HighMap(SimpleDataSource(map_data_us_point), options={'map_type': 'mappoint', 'map_area': 'countries/us/custom/us-all-territories', 'tooltip': {'enabled': True, 'pointFormat': '{point.Date}'}}),
-            'highmap_chart_bubble': self.renderer.HighMap(SimpleDataSource(map_data_us), options={'map_type': 'mapbubble', 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),
-            'highmap_chart_lat_lon': self.renderer.HighMap(SimpleDataSource(map_data_us_lat_lon), options={'title': 'With latitude and longitude', 'colorAxis': {'minColor': '#efecf3', 'maxColor': '#990041'}, 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),
+            'highmap_chart': self.renderer.HighMap(SimpleDataSource(map_data_us), options={'colorAxis': {'minColor': '#efecf3', 'maxColor': '#990041'}, 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),  # noqa E501
+            'highmap_chart_point': self.renderer.HighMap(SimpleDataSource(map_data_us_point), options={'map_type': 'mappoint', 'map_area': 'countries/us/custom/us-all-territories', 'tooltip': {'enabled': True, 'pointFormat': '{point.Date}'}}),  # noqa E501
+            'highmap_chart_bubble': self.renderer.HighMap(SimpleDataSource(map_data_us), options={'map_type': 'mapbubble', 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),  # noqa E501
+            'highmap_chart_lat_lon': self.renderer.HighMap(SimpleDataSource(map_data_us_lat_lon), options={'title': 'With latitude and longitude', 'colorAxis': {'minColor': '#efecf3', 'maxColor': '#990041'}, 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),  # noqa E501
             # If you want highmap_chart to be bubble chart, then add 'map_type': 'mapbubble' and 'zKey': 'Seats' to options. Also remove 'allAreas': False.
-            'highmap_chart_multi': self.renderer.HighMap(SimpleDataSource(map_data_us_multi_series), options={'colors': ['red'], 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}, 'allAreas': False, 'tooltip': {'useHTML': True, 'pointFormat': '{point.name} Number of seats: {point.Seats}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),
-            'highmap_chart_multi_bubble': self.renderer.HighMap(SimpleDataSource(map_data_us_multi_series), options={'map_type': 'mapbubble', 'zKey': 'Seats', 'colors': ['red'], 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}, 'tooltip': {'useHTML': True, 'pointFormat': '{point.name} Number of seats: {point.Seats}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),
-            'highmap_chart_multi_lat_lon': self.renderer.HighMap(SimpleDataSource(map_data_us_multi_series_lat_lon), options={'title': 'Multi series with latitude and longitude', 'map_type': 'mapbubble', 'zKey': 'Seats', 'colors': ['red'], 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}, 'tooltip': {'useHTML': True, 'pointFormat': '{point.name} Number of seats: {point.Seats}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),
-            'heat_map': self.renderer.HeatMap(SimpleDataSource(heatmap_data), options={'colorAxis': {'min': 0,'minColor': '#FF0000','maxColor': '#6495ed'},'title': 'Demo of Heatmap'}),
+            'highmap_chart_multi': self.renderer.HighMap(SimpleDataSource(map_data_us_multi_series), options={'colors': ['red'], 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}, 'allAreas': False, 'tooltip': {'useHTML': True, 'pointFormat': '{point.name} Number of seats: {point.Seats}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),  # noqa E501
+            'highmap_chart_multi_bubble': self.renderer.HighMap(SimpleDataSource(map_data_us_multi_series), options={'map_type': 'mapbubble', 'zKey': 'Seats', 'colors': ['red'], 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}, 'tooltip': {'useHTML': True, 'pointFormat': '{point.name} Number of seats: {point.Seats}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),  # noqa E501
+            'highmap_chart_multi_lat_lon': self.renderer.HighMap(SimpleDataSource(map_data_us_multi_series_lat_lon), options={'title': 'Multi series with latitude and longitude', 'map_type': 'mapbubble', 'zKey': 'Seats', 'colors': ['red'], 'plotOptions': {'map': {'dataLabels': {'enabled': True, 'format': '{point.name}'}, 'tooltip': {'useHTML': True, 'pointFormat': '{point.name} Number of seats: {point.Seats}'}}}, 'map_area': 'countries/us/custom/us-all-territories'}),  # noqa E501
+            'heat_map': self.renderer.HeatMap(SimpleDataSource(heatmap_data), options={'colorAxis': {'min': 0,'minColor': '#FF0000','maxColor': '#6495ed'},'title': 'Demo of Heatmap'}),  # noqa E501
             'funnel': self.renderer.Funnel(SimpleDataSource(funnel_data)),
             'treemap': self.renderer.TreeMap(SimpleDataSource(treemap_data_highcharts)),
             'pie_donut': self.renderer.PieDonut(SimpleDataSource(piechart_data_highcharts)),
@@ -324,6 +330,7 @@ class HighChartsDemo(Demo):
             'bubble_chart_single': self.renderer.Bubble(SimpleDataSource(bubble_chart_data_single))
         })
         return context
+
 
 highcharts_demo = HighChartsDemo.as_view(renderer=highcharts)
 
@@ -349,6 +356,7 @@ class C3jsDemo(Demo):
             'donut_chart': donut_chart,
         })
         return context
+
 
 c3js_demo = C3jsDemo.as_view(renderer=c3js)
 
@@ -424,8 +432,7 @@ def build_timeseries_chart(period,
                        'label': "series %s: %s" % (i + 1, s['field'])}
 
         cursor = db[collection].find(query)
-        data_source.append([(get_val_from_id(rec["_id"]),
-                           rec['value']) for rec in cursor])
+        data_source.append([(get_val_from_id(rec["_id"]), rec['value']) for rec in cursor])
 
     return datasets
 
@@ -504,6 +511,7 @@ class GhcartRendererAsJson(RendererAsJson):
         context = {"chart": line_chart}
         return context
 
+
 custom_gchart_renderer = GhcartRendererAsJson.as_view()
 
 
@@ -514,3 +522,21 @@ def matplotlib_demo(request):
     context = {"line_chart": line_chart,
                "bar_chart": bar_chart}
     return render(request, 'demo/matplotlib.html', context)
+
+
+def chartjs_demo(request):
+    line_chart = chartjs.LineChart(SimpleDataSource(
+        data=chartjs_sample_data),
+        options={"fill": False, "borderColor": "rgba(75,192,192,1)"})
+    bar_chart = chartjs.BarChart(SimpleDataSource(data=chartjs_sample_data))
+    pie_chart = chartjs.PieChart(SimpleDataSource(
+        data=chartjs_single_series),
+        options={"backgroundColor": ["#2ecc71", "#3498db", "#95a5a6", "#9b59b6", ]})
+    donught_chart = chartjs.DoughnutChart(SimpleDataSource(
+        data=chartjs_single_series),
+        options={"backgroundColor": ["#2ecc71", "#3498db", "#95a5a6", "#9b59b6", ]})
+    context = {"line_chart": line_chart,
+               "bar_chart": bar_chart,
+               "pie_chart": pie_chart,
+               "donought_chart": donught_chart}
+    return render(request, 'demo/chartjs.html', context)

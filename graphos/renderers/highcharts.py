@@ -5,7 +5,6 @@ from decimal import Decimal
 from copy import deepcopy
 import sys
 
-from django.template.loader import render_to_string
 from ..utils import JSONEncoderForHTML
 from ..exceptions import GraphosException
 
@@ -15,6 +14,7 @@ class BaseHighCharts(BaseChart):
     This has been written with categorical x axis in mind.
     This assumes that first column would be non-numeric, and assumes that every other column tells data for a series and would be numeric. If this assumption is violated, chart wouldn't be proper.
     """
+
     def get_html_template(self):
         return "graphos/highcharts/html.html"
 
@@ -63,7 +63,7 @@ class BaseHighCharts(BaseChart):
                 serieses.append(series)
         else:
             for i, name in enumerate(series_names):
-                series = {"name": name, "data": column(data, i+1)[1:]}
+                series = {"name": name, "data": column(data, i + 1)[1:]}
                 # If colors was passed then add color for the serieses
                 if 'colors' in options and len(options['colors']) > i:
                     series['color'] = options['colors'][i]
@@ -137,11 +137,11 @@ class BaseHighCharts(BaseChart):
 
     def get_x_axis(self):
         x_axis = self.get_options().get('xAxis', {})
-        if not 'categories' in x_axis:
+        if 'categories' not in x_axis:
             x_axis['categories'] = self.get_categories()
-        if not 'title' in x_axis:
+        if 'title' not in x_axis:
             x_axis['title'] = {}
-        if not 'text' in x_axis['title']:
+        if 'text' not in x_axis['title']:
             x_axis['title']['text'] = self.get_x_axis_title()
         return x_axis
 
@@ -160,9 +160,9 @@ class BaseHighCharts(BaseChart):
 
     def get_y_axis(self):
         y_axis = self.get_options().get('yAxis', {})
-        if not 'title' in y_axis:
+        if 'title' not in y_axis:
             y_axis['title'] = {}
-        if not 'text' in y_axis['title']:
+        if 'text' not in y_axis['title']:
             y_axis['title']['text'] = self.get_y_axis_title()
         return y_axis
 
@@ -260,7 +260,7 @@ class ScatterChart(BaseHighCharts):
     def calculate_single_series(self):
         options = self.get_options()
         temp_name = self.get_data()[0][0]
-        data = [{temp_name: row[0],"x": row[1],'y': row[2]} for row in self.get_data()[1:]]
+        data = [{temp_name: row[0], "x": row[1], 'y': row[2]} for row in self.get_data()[1:]]
         # Assumption: If user adds color to the single series it is obvious that color
         # list will have single color, incase it has by mistake multiple colors only the
         # first color will be used.
@@ -276,7 +276,7 @@ class ScatterChart(BaseHighCharts):
         name_to_points_dict = defaultdict(list)
         for row in data:
             series_name = row[1]
-            l = {temp_name: row[0],"x": row[2],"y": row[3]}
+            l = {temp_name: row[0], "x": row[2], "y": row[3]}
             name_to_points_dict[series_name].append(l)
         serieses = []
         for series_name, points in name_to_points_dict.items():
@@ -319,7 +319,7 @@ class ColumnLineChart(BaseHighCharts):
         serieses.append({"name": data[0][1], "data": column(data, 1)[1:], "type": "column"})
         series_names = data[0][2:]
         for i, name in enumerate(series_names):
-            serieses.append({"name": name, "data": column(data, i+2)[1:], "type": "line"})
+            serieses.append({"name": name, "data": column(data, i + 2)[1:], "type": "line"})
         return serieses
 
     def get_chart_type(self):
@@ -340,7 +340,7 @@ class LineColumnChart(BaseHighCharts):
         serieses.append({"name": data[0][1], "data": column(data, 1)[1:], "type": "line"})
         series_names = data[0][2:]
         for i, name in enumerate(series_names):
-            serieses.append({"name": name, "data": column(data, i+2)[1:], "type": "column"})
+            serieses.append({"name": name, "data": column(data, i + 2)[1:], "type": "column"})
         return serieses
 
     def get_chart_type(self):
@@ -354,13 +354,13 @@ class PieChart(BaseHighCharts):
         serieses = []
         for i, name in enumerate(series_names):
             # TODO: Add color ability
-            series = {"name": name, "data": pie_column(data, i+1)[1:]}
+            series = {"name": name, "data": pie_column(data, i + 1)[1:]}
             serieses.append(series)
         return serieses
 
     def get_plot_options(self):
         plot_options = self.get_options().get('plotOptions', {})
-        if not 'pie' in plot_options:
+        if 'pie' not in plot_options:
             plot_options['pie'] = {}
         if 'showInLegend' not in plot_options['pie']:
             plot_options['pie']['showInLegend'] = True
@@ -411,6 +411,7 @@ class MultiAxisChart(BaseHighCharts):
 
 class HighMap(BaseHighCharts):
     """docstring for HighMaps"""
+
     def __init__(self, *args, **kwargs):
         super(HighMap, self).__init__(*args, **kwargs)
         self.is_lat_long = False
@@ -583,9 +584,9 @@ class HighMap(BaseHighCharts):
 
     def get_plot_options(self):
         plot_options = self.get_options().get('plotOptions', {})
-        if not 'map' in plot_options:
+        if 'map' not in plot_options:
             plot_options['map'] = {}
-        if not 'mapbubble' in plot_options:
+        if 'mapbubble' not in plot_options:
             plot_options['mapbubble'] = {}
         return plot_options
 
@@ -603,7 +604,8 @@ def column(matrix, i):
 
 
 def pie_column(matrix, i):
-    return [{'name':row[0],'y':row[i]} for row in matrix]
+    return [{'name': row[0], 'y':row[i]} for row in matrix]
+
 
 class HeatMap(BaseHighCharts):
 
@@ -617,8 +619,8 @@ class HeatMap(BaseHighCharts):
         value_list = tempdata
         for row in value_list:
             del row[0]
-        for i in range(0,X_len):
-            for j in range(0, Y_len-1):
+        for i in range(0, X_len):
+            for j in range(0, Y_len - 1):
                 new_list.append([i, j, value_list[i][j]])
         data = new_list
         serieses.append({'data': data})
@@ -646,7 +648,7 @@ class HeatMap(BaseHighCharts):
 
     def get_plot_options(self):
         plot_options = self.get_options().get('plotOptions', {})
-        if not 'heatmap' in plot_options:
+        if 'heatmap' not in plot_options:
             plot_options['heatmap'] = {}
         if 'borderWidth' not in plot_options['heatmap']:
             plot_options['heatmap']['borderWidth'] = 1
@@ -670,7 +672,7 @@ class Funnel(BaseHighCharts):
 
     def get_plot_options(self):
         plot_options = self.get_options().get('plotOptions', {})
-        if not 'funnel' in plot_options:
+        if 'funnel' not in plot_options:
             plot_options['funnel'] = {}
         if 'neckWidth' not in plot_options['funnel']:
             plot_options['funnel']['neckWidth'] = '30%'
@@ -701,6 +703,7 @@ color_picker_list = ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f1
                      '#9AC7F4', '#D7FE4E', '#40744e', '#ZZ1532', '#f1f442', '#ee42f4', '#E91605', '#B96A30',
                      '#3905932', '#B6CFEB', '#72F458', '#4F7030', '#563FF7', '#280B65', '#BBC7F4', '#D7FE4E']
 
+
 def nested_list_to_tree(data):
     treemap_data = data
     l = treemap_data[1:]
@@ -711,6 +714,7 @@ def nested_list_to_tree(data):
             parent = parent.setdefault(n, {})
     root = OrderedDict(root)
     return root
+
 
 def generate_treemap_data(root, no_of_column):
     final_data = []
@@ -733,7 +737,7 @@ def generate_treemap_data(root, no_of_column):
             parent_value = 0
             parent_data['id'] = 'id_' + str(counter_0)
             parent_data['name'] = i
-            parent_data['color'] =  color_picker_list[counter_0]
+            parent_data['color'] = color_picker_list[counter_0]
             parent_id = 'id_' + str(counter_0)
             for k, l in j.items():
                 data = {}
@@ -808,7 +812,7 @@ def generate_pie_donut_data(root, no_of_column):
                 data = {}
                 data['name'] = k
                 data['color'] = color_picker_list[counter_0]
-                key= list(l.keys())
+                key = list(l.keys())
                 data['y'] = key[0]
                 parent_value += key[0]
                 list_1.append(data)
@@ -818,7 +822,6 @@ def generate_pie_donut_data(root, no_of_column):
         final_data.append(list_0)
         final_data.append(list_1)
         return final_data
-
 
 
 class TreeMap(BaseHighCharts):
@@ -838,7 +841,7 @@ class TreeMap(BaseHighCharts):
 
     def get_plot_options(self):
         plot_options = self.get_options().get('plotOptions', {})
-        if not 'treemap' in plot_options:
+        if 'treemap' not in plot_options:
             plot_options['treemap'] = {}
         if 'type' not in plot_options['treemap']:
             plot_options['treemap']['type'] = 'treemap'
@@ -853,7 +856,7 @@ class TreeMap(BaseHighCharts):
         if 'dataLabels' not in plot_options['treemap']:
             plot_options['treemap']['dataLabels'] = {'enabled': False}
         if 'levels' not in plot_options['treemap']:
-            plot_options['treemap']['levels'] = [{'level': 1,'dataLabels': {'enabled': True},'borderWidth': 3}]
+            plot_options['treemap']['levels'] = [{'level': 1, 'dataLabels': {'enabled': True}, 'borderWidth': 3}]
         return plot_options
 
     def get_js_template(self):
@@ -870,10 +873,11 @@ class PieDonut(BaseHighCharts):
         final_data = generate_pie_donut_data(root, no_of_column)
         result = final_data
         if no_of_column == 2:
-            serieses.append({"name":data[0][0],"data": result,"size": '100%'})
+            serieses.append({"name": data[0][0], "data": result, "size": '100%'})
         if no_of_column == 3:
-            serieses.append({'name': data[0][0], 'data': result[0], 'size': '60%','dataLabels': {'enabled': False}, 'showInLegend': True})
-            serieses.append({'name':  data[0][1], 'data': result[1], 'size': '80%','innerSize': '60%'})
+            serieses.append({'name': data[0][0], 'data': result[0], 'size': '60%',
+                             'dataLabels': {'enabled': False}, 'showInLegend': True})
+            serieses.append({'name': data[0][1], 'data': result[1], 'size': '80%', 'innerSize': '60%'})
         return serieses
 
     def get_chart_type(self):
@@ -907,7 +911,7 @@ class Bubble(BaseHighCharts):
     def calculate_single_series(self):
         options = self.get_options()
         temp_name = self.get_data()[0][0]
-        data = [{temp_name: row[0], "x": row[1], 'y': row[2],'z': row[3]} for row in self.get_data()[1:]]
+        data = [{temp_name: row[0], "x": row[1], 'y': row[2], 'z': row[3]} for row in self.get_data()[1:]]
         # TODO: What should be series_name in this case? Should it be read from options?
         if 'colors' in options and len(options['colors']) > 0:
             series = {'data': data, 'name': self.get_data()[0][0], 'color': options['colors'][0]}
@@ -921,7 +925,7 @@ class Bubble(BaseHighCharts):
         name_to_points_dict = defaultdict(list)
         for row in data:
             series_name = row[1]
-            l = {temp_name: row[0], "x": row[2], "y": row[3],"z": row[4]}
+            l = {temp_name: row[0], "x": row[2], "y": row[3], "z": row[4]}
             name_to_points_dict[series_name].append(l)
         serieses = []
         for series_name, points in name_to_points_dict.items():

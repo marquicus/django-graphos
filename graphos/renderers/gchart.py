@@ -6,6 +6,11 @@ class BaseGChart(BaseChart):
         return "graphos/gchart/html.html"
 
 
+class GeoChart(BaseGChart):
+    def get_js_template(self):
+        return "graphos/gchart/geo_chart.html"
+
+
 class LineChart(BaseGChart):
     def get_js_template(self):
         return "graphos/gchart/line_chart.html"
@@ -21,13 +26,18 @@ class ColumnChart(BaseGChart):
         return "graphos/gchart/column_chart.html"
 
 
+class HistogramChart(BaseGChart):
+    def get_js_template(self):
+        return "graphos/gchart/histogram_chart.html"
+
+
 class BarChart(BaseGChart):
     def get_js_template(self):
         return "graphos/gchart/bar_chart.html"
 
     def get_options(self):
         options = super(BarChart, self).get_options()
-        if not 'vAxis' in options:
+        if 'vAxis' not in options:
             vaxis = self.data_source.get_header()[0]
             options['vAxis'] = {'title': vaxis}
         return options

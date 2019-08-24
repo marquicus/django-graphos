@@ -56,7 +56,7 @@ class PieChart(BaseYuiChart):
 
     def get_chart_type(self):
         return "pie"
-    
+
     def get_data(self):
         # FIXME
         data = self.data_source.get_data()

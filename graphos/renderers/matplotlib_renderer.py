@@ -1,10 +1,11 @@
-#Named such to not clash with matplotlib
+# Named such to not clash with matplotlib
 from .base import BaseChart
 
 import matplotlib
 matplotlib.use('Agg')  # http://stackoverflow.com/a/4706614/202168
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
+import base64
 
 try:
     # python 2
@@ -12,8 +13,6 @@ try:
 except ImportError:
     # python 3
     from io import BytesIO as StringIO
-
-import base64
 
 
 class BaseMatplotlibChart(BaseChart):

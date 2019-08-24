@@ -3,6 +3,7 @@ import json
 
 from ..utils import JSONEncoderForHTML
 
+
 class BaseMorrisChart(BaseChart):
 
     def get_data(self):

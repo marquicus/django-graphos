@@ -33,23 +33,25 @@ data = [
        ['2005', 1170, 460, 120, 710],
        ['2006', 660, 1120, 50, -460],
        ['2007', 1030, 540, 100, 490],
-       ]
+]
 
-candlestick_data = [['Mon', 20, 28, 38, 45],
-                    ['Tue', 31, 38, 55, 66],
-                    ['Wed', 50, 55, 77, 80],
-                    ['Thu', 77, 77, 66, 50],
-                    ['Fri', 68, 66, 22, 15]]
+candlestick_data = [
+    ['Mon', 20, 28, 38, 45],
+    ['Tue', 31, 38, 55, 66],
+    ['Wed', 50, 55, 77, 80],
+    ['Thu', 77, 77, 66, 50],
+    ['Fri', 68, 66, 22, 15]
+]
 
 # TODO: Come up with a better example
 scatter_multi_series_data = [
-    ['state','country','Rainfall', 'Precipitation'],
-    ['Uttar Pradesh','India',1, 2],
-    ['Bihar','India',2, 3],
-    ['Telangana','India',5, 7],
-    ['Lahore','Pakistan',9,8],
-    ['Hyderabad','Pakistan',8,7],
-    ['Lahore','Pakistan',3,11]
+    ['state', 'country', 'Rainfall', 'Precipitation'],
+    ['Uttar Pradesh', 'India', 1, 2],
+    ['Bihar', 'India', 2, 3],
+    ['Telangana', 'India', 5, 7],
+    ['Lahore', 'Pakistan', 9, 8],
+    ['Hyderabad', 'Pakistan', 8, 7],
+    ['Lahore', 'Pakistan', 3, 11]
 ]
 
 # TODO: Come up with a better example
@@ -64,35 +66,36 @@ scatter_single_series_data = [
 ]
 
 treemap_data = [
-          ['Location', 'Parent', 'Market trade volume (size)', 'Market increase/decrease (color)'],
-          ['Global',    None,                 0,                               0],
-          ['America',   'Global',             0,                               0],
-          ['Europe',    'Global',             0,                               0],
-          ['Asia',      'Global',             0,                               0],
-          ['Australia', 'Global',             0,                               0],
-          ['Africa',    'Global',             0,                               0],
-          ['Brazil',    'America',            11,                              10],
-          ['USA',       'America',            52,                              31],
-          ['Mexico',    'America',            24,                              12],
-          ['Canada',    'America',            16,                              -23],
-          ['France',    'Europe',             42,                              -11],
-          ['Germany',   'Europe',             31,                              -2],
-          ['Sweden',    'Europe',             22,                              -13],
-          ['Italy',     'Europe',             17,                              4],
-          ['UK',        'Europe',             21,                              -5],
-          ['China',     'Asia',               36,                              4],
-          ['Japan',     'Asia',               20,                              -12],
-          ['India',     'Asia',               40,                              63],
-          ['Laos',      'Asia',               4,                               34],
-          ['Mongolia',  'Asia',               1,                               -5],
-          ['Israel',    'Asia',               12,                              24],
-          ['Iran',      'Asia',               18,                              13],
-          ['Pakistan',  'Asia',               11,                              -52],
-          ['Egypt',     'Africa',             21,                              0],
-          ['S. Africa', 'Africa',             30,                              43],
-          ['Sudan',     'Africa',             12,                              2],
-          ['Congo',     'Africa',             10,                              12],
-          ['Zaire',     'Africa',             8,                               10]]
+    ['Location', 'Parent', 'Market trade volume (size)', 'Market increase/decrease (color)'],
+    ['Global', None, 0, 0],
+    ['America', 'Global', 0, 0],
+    ['Europe', 'Global', 0, 0],
+    ['Asia', 'Global', 0, 0],
+    ['Australia', 'Global', 0, 0],
+    ['Africa', 'Global', 0, 0],
+    ['Brazil', 'America', 11, 10],
+    ['USA', 'America', 52, 31],
+    ['Mexico', 'America', 24, 12],
+    ['Canada', 'America', 16, -23],
+    ['France', 'Europe', 42, -11],
+    ['Germany', 'Europe', 31, -2],
+    ['Sweden', 'Europe', 22, -13],
+    ['Italy', 'Europe', 17, 4],
+    ['UK', 'Europe', 21, -5],
+    ['China', 'Asia', 36, 4],
+    ['Japan', 'Asia', 20, -12],
+    ['India', 'Asia', 40, 63],
+    ['Laos', 'Asia', 4, 34],
+    ['Mongolia', 'Asia', 1, -5],
+    ['Israel', 'Asia', 12, 24],
+    ['Iran', 'Asia', 18, 13],
+    ['Pakistan', 'Asia', 11, -52],
+    ['Egypt', 'Africa', 21, 0],
+    ['S. Africa', 'Africa', 30, 43],
+    ['Sudan', 'Africa', 12, 2],
+    ['Congo', 'Africa', 10, 12],
+    ['Zaire', 'Africa', 8, 10]
+]
 
 
 # map_data = [
@@ -464,7 +467,7 @@ map_data_us_multi_series = [
 
 map_data_us_lat_lon = [
     ['Latitude', 'Longitude', 'Population'],
-    [32.380120, -86.300629,  900],
+    [32.380120, -86.300629, 900],
     [58.299740, -134.406794, 387],
     [33.448260, -112.075774, 313],
 ]
@@ -540,30 +543,34 @@ map_data_us_point = [
 ]
 
 
-mongo_series_object_1 = [[440, 39],
-                         [488, 29.25],
-                         [536, 28],
-                         [584, 29],
-                         [632, 33.25],
-                         [728, 28.5],
-                         [776, 33.25],
-                         [824, 28.5],
-                         [872, 31],
-                         [920, 30.75],
-                         [968, 26.25]]
+mongo_series_object_1 = [
+    [440, 39],
+    [488, 29.25],
+    [536, 28],
+    [584, 29],
+    [632, 33.25],
+    [728, 28.5],
+    [776, 33.25],
+    [824, 28.5],
+    [872, 31],
+    [920, 30.75],
+    [968, 26.25]
+]
 
-mongo_series_object_2 = [[400, 4],
-                         [488, 0],
-                         [536, 20],
-                         [584, 8],
-                         [632, 2],
-                         [680, 36],
-                         [728, 0],
-                         [776, 0],
-                         [824, 0],
-                         [872, 4],
-                         [920, 1],
-                         [968, 0]]
+mongo_series_object_2 = [
+    [400, 4],
+    [488, 0],
+    [536, 20],
+    [584, 8],
+    [632, 2],
+    [680, 36],
+    [728, 0],
+    [776, 0],
+    [824, 0],
+    [872, 4],
+    [920, 1],
+    [968, 0]
+]
 
 mongo_data = [{'data': mongo_series_object_1, 'label': 'hours'},
               {'data': mongo_series_object_2, 'label': 'hours'}]
@@ -598,98 +605,118 @@ def create_demo_mongo():
         docs.insert(dict(zip(header, row)))
 
 
-heatmap_data = [['Name', 'Yash', 'Akshar', 'Ashok','Shabda'],
-                      ['Uttar Pradesh',1000,2000,3000,4000],
-                      ['Bihar',2000,5000,8000,9800],
-                      ['Hyderabad',10000,9855,6000,2000],
-                      ['Banglore',98652,78563,8522,2000],
-                      ['Chennai',98745,8563,5236,2000],
-                      ['Vizag',9875,7000,966,2300],
-                      ['Maharashtra',9000,16789,9087,6789],
-                      ['Punjab',3467,8900,5670,9900]
-                      ]
+heatmap_data = [
+    ['Name', 'Yash', 'Akshar', 'Ashok', 'Shabda'],
+    ['Uttar Pradesh', 1000, 2000, 3000, 4000],
+    ['Bihar', 2000, 5000, 8000, 9800],
+    ['Hyderabad', 10000, 9855, 6000, 2000],
+    ['Banglore', 98652, 78563, 8522, 2000],
+    ['Chennai', 98745, 8563, 5236, 2000],
+    ['Vizag', 9875, 7000, 966, 2300],
+    ['Maharashtra', 9000, 16789, 9087, 6789],
+    ['Punjab', 3467, 8900, 5670, 9900]
+]
 
-funnel_data = [['Unique users', 'Counts'],
-            ['Website visits', 654],
-            ['Downloads', 4064],
-            ['Requested price list', 1987],
-            ['Invoice sent', 976],
-            ['Finalized', 846]
-        ]
-
-
-treemap_data_highcharts = [["Continent","Country","Cause","Death Rate"],
-                ["Asia","India","Cardiovascular Disease",10],
-                ["Asia","India","Road Accident",5],
-                ["Asia","India","Cancer",3],
-                ["Asia","China","Cardiovascular Disease",9],
-                ["Asia","China","Road Accident",6],
-                ["Asia","China","Cancer",1],
-                ["South Ameria","Brazil","Cardiovascular Disease",11],
-                ["South Ameria","Brazil","Road Accident",3],
-                ["South Ameria","Brazil","Cancer",2],
-                ["South Ameria","Uruguay","Cardiovascular Disease",12],
-                ["South Ameria","Uruguay","Road Accident",9],
-                ["South Ameria","Uruguay","Cancer",8],
-                ["Europe","France","Cardiovascular Disease",9],
-                ["Europe","France","Road Accident",4],
-                ["Europe","France","Cancer",6]
-                ]
-
-piechart_data_highcharts = [["Country","Cause","Death Rate"],
-                ["India","Cardiovascular Disease",10],
-                ["India","Road Accident",5],
-                ["India","Cancer",3],
-                ["China","Cardiovascular Disease",9],
-                ["China","Road Accident",6],
-                ["China","Cancer",1],
-                ["Brazil","Cardiovascular Disease",11],
-                ["Brazil","Road Accident",3],
-                ["Brazil","Cancer",2],
-                ["Uruguay","Cardiovascular Disease",12],
-                ["Uruguay","Road Accident",9],
-                ["Uruguay","Cancer",8],
-                ["France","Cardiovascular Disease",9],
-                ["France","Road Accident",4],
-                ["France","Cancer",6]
-                ]
-
-bubble_chart_data_multi = [["Grade","Country","Sugar Consumption","Fat Consumption","GDP"],
-                     ["A","India",10,15,90],
-                     ["B","India",11,20,19],
-                     ["C","India",12,15,70],
-                     ["D","India",13,30,39],
-                     ["E","India",14,12,9],
-                     ["F","India",15,5,98],
-                     ["H","Japan",18,60,110],
-                     ["I","Japan", 41, 16, 140],
-                     ["J","Japan", 47, 36, 150],
-                     ["K","Japan", 61, 56, 70],
-                     ["L","Japan", 74, 36, 210],
-                     ["M","Japan", 10, 46, 90],
-                     ["N","Japan", 30, 26, 100],
-                     ["O","China",14,18,100],
-                     ["A","China", 9, 17, 10],
-                     ["B","China", 51, 67, 200],
-                     ["C","China", 12, 27, 160],
-                     ["D","China", 42, 67, 86],
-                     ["E","China", 30, 97, 20],
-                     ["F","China", 16, 67, 90],
-                     ["L","USA",56,20,120],
-                     ["K","USA", 32, 23, 220],
-                     ["A","USA", 15, 85, 320],
-                     ["S","USA", 48, 10, 20],
-                     ["D","USA", 30, 96, 150],
-                     ["K","USA", 14, 22, 160],
-                     ["P","USA", 39, 21, 100],
-                     ["O","USA", 44, 29, 150]]
+funnel_data = [
+    ['Unique users', 'Counts'],
+    ['Website visits', 654],
+    ['Downloads', 4064],
+    ['Requested price list', 1987],
+    ['Invoice sent', 976],
+    ['Finalized', 846]
+]
 
 
-bubble_chart_data_single = [["Country","Sugar Consumption","Fat Consumption","GDP"],
-                     ["India",10,15,90],
-                     ["USA",11,20,19],
-                     ["China",12,15,70],
-                     ["Japan",13,30,39],
-                     ["Pakistan",14,12,9],
-                     ["Srilanka",15,5,98],
-                     ["Indonesia",16,35,150]]
+treemap_data_highcharts = [
+    ["Continent", "Country", "Cause", "Death Rate"],
+    ["Asia", "India", "Cardiovascular Disease", 10],
+    ["Asia", "India", "Road Accident", 5],
+    ["Asia", "India", "Cancer", 3],
+    ["Asia", "China", "Cardiovascular Disease", 9],
+    ["Asia", "China", "Road Accident", 6],
+    ["Asia", "China", "Cancer", 1],
+    ["South Ameria", "Brazil", "Cardiovascular Disease", 11],
+    ["South Ameria", "Brazil", "Road Accident", 3],
+    ["South Ameria", "Brazil", "Cancer", 2],
+    ["South Ameria", "Uruguay", "Cardiovascular Disease", 12],
+    ["South Ameria", "Uruguay", "Road Accident", 9],
+    ["South Ameria", "Uruguay", "Cancer", 8],
+    ["Europe", "France", "Cardiovascular Disease", 9],
+    ["Europe", "France", "Road Accident", 4],
+    ["Europe", "France", "Cancer", 6]
+]
+
+piechart_data_highcharts = [
+    ["Country", "Cause", "Death Rate"],
+    ["India", "Cardiovascular Disease", 10],
+    ["India", "Road Accident", 5],
+    ["India", "Cancer", 3],
+    ["China", "Cardiovascular Disease", 9],
+    ["China", "Road Accident", 6],
+    ["China", "Cancer", 1],
+    ["Brazil", "Cardiovascular Disease", 11],
+    ["Brazil", "Road Accident", 3],
+    ["Brazil", "Cancer", 2],
+    ["Uruguay", "Cardiovascular Disease", 12],
+    ["Uruguay", "Road Accident", 9],
+    ["Uruguay", "Cancer", 8],
+    ["France", "Cardiovascular Disease", 9],
+    ["France", "Road Accident", 4],
+    ["France", "Cancer", 6]
+]
+
+bubble_chart_data_multi = [
+    ["Grade", "Country", "Sugar Consumption", "Fat Consumption", "GDP"],
+    ["A", "India", 10, 15, 90],
+    ["B", "India", 11, 20, 19],
+    ["C", "India", 12, 15, 70],
+    ["D", "India", 13, 30, 39],
+    ["E", "India", 14, 12, 9],
+    ["F", "India", 15, 5, 98],
+    ["H", "Japan", 18, 60, 110],
+    ["I", "Japan", 41, 16, 140],
+    ["J", "Japan", 47, 36, 150],
+    ["K", "Japan", 61, 56, 70],
+    ["L", "Japan", 74, 36, 210],
+    ["M", "Japan", 10, 46, 90],
+    ["N", "Japan", 30, 26, 100],
+    ["O", "China", 14, 18, 100],
+    ["A", "China", 9, 17, 10],
+    ["B", "China", 51, 67, 200],
+    ["C", "China", 12, 27, 160],
+    ["D", "China", 42, 67, 86],
+    ["E", "China", 30, 97, 20],
+    ["F", "China", 16, 67, 90],
+    ["L", "USA", 56, 20, 120],
+    ["K", "USA", 32, 23, 220],
+    ["A", "USA", 15, 85, 320],
+    ["S", "USA", 48, 10, 20],
+    ["D", "USA", 30, 96, 150],
+    ["K", "USA", 14, 22, 160],
+    ["P", "USA", 39, 21, 100],
+    ["O", "USA", 44, 29, 150]
+]
+
+
+bubble_chart_data_single = [
+    ["Country", "Sugar Consumption", "Fat Consumption", "GDP"],
+    ["India", 10, 15, 90],
+    ["USA", 11, 20, 19],
+    ["China", 12, 15, 70],
+    ["Japan", 13, 30, 39],
+    ["Pakistan", 14, 12, 9],
+    ["Srilanka", 15, 5, 98],
+    ["Indonesia", 16, 35, 150]
+]
+
+
+chartjs_sample_data = [
+    ['Sales', 'Expenses', 'Items Sold', 'Net Profit'],
+    [2004, 1000, 400, 100, 600],
+    [2005, 1170, 460, 120, 310]]
+
+
+chartjs_single_series = [
+    ['Sales', 'Expenses', 'Items Sold', 'Net Profit'],
+    ['First dataset', 1000, 400, 100, 600]
+]

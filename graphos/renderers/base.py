@@ -3,26 +3,30 @@ import sys
 
 from django.template.loader import render_to_string
 from ..exceptions import GraphosException
-from ..utils import DEFAULT_HEIGHT, DEFAULT_WIDTH, get_random_string, JSONEncoderForHTML
+from ..utils import DEFAULT_POSITION, DEFAULT_HEIGHT, DEFAULT_WIDTH, get_random_string, JSONEncoderForHTML
 from ..encoders import GraphosEncoder
 
 
 class BaseChart(object):
 
-    def __init__(self, data_source, html_id=None,
-                 width=None, height=None,
+    def __init__(self, data_source, html_id=None, html_class=None,
+                 width=None, height=None, position=None,
                  options=None, encoder=GraphosEncoder,
                  *args, **kwargs):
         """
         : param data_source: :type graphos.sources.base.BaseDataSource subclass instance.
         : param html_id: :type string: Id of the div where you would like chart to be rendered
+        : param html_class: :type string: Class of the div where you apply style for render the chart
+        : param position: :type string: Position type of the chart div
         : param width: :type integer: Width of the chart div
         : param height: :type integer: Height of the chart div
         """
         self.data_source = data_source
         self.html_id = html_id or get_random_string()
+        self.html_class = html_class or ""
         self.height = height or DEFAULT_HEIGHT
         self.width = width or DEFAULT_WIDTH
+        self.position = position or DEFAULT_POSITION
         # options could be an object, a list, a dictionary or a nested object or probably anything.
         # Different renderers have different structure for options.
         # Its responsibility of the renderer to read self.options in correct way and to use it in get_js_template.
@@ -39,7 +43,7 @@ class BaseChart(object):
 
     def get_options(self):
         options = self.options
-        if not 'title' in options:
+        if 'title' not in options:
             options['title'] = "Chart"
         return options
 
@@ -57,6 +61,9 @@ class BaseChart(object):
 
     def get_html_id(self):
         return self.html_id
+
+    def get_html_class(self):
+        return self.html_class
 
     def get_context_data(self):
         return self.context_data
@@ -78,6 +85,6 @@ class BaseChart(object):
 
     def zip_list(self, *args):
         rv = zip(*args)
-        if sys.version_info < (3,0):
+        if sys.version_info < (3, 0):
             return rv
         return list(rv)
